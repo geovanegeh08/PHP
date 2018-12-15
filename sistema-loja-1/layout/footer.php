@@ -2,6 +2,7 @@
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 <!-- lib para mascara de preço -->
 <script type="text/javascript" src="js/jquery.priceformat.min.js"></script>
+<script type="text/javascript" src="js/jquery.mask.js"></script>
 
 <script type="text/javascript">
 	$('.price').priceFormat({
@@ -9,7 +10,9 @@
 	    centsSeparator: ',',
 	    thousandsSeparator: '.'
 	});
-
+$('.cpf').mask('000.000.000-00', {reverse: true});
+$('.phone_with_ddd').mask('(00) 00000-0000');
+$('.matricula').mask('000.000-0', {reverse: true});
 
 	/*setInterval(function(){ 
 		var contador = $("#contador").text();

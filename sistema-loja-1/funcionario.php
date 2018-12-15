@@ -6,7 +6,7 @@
 	$sql_funcionarios = "SELECT f.*, c.descricao as cargo 
 					 FROM funcionarios f
 					 LEFT JOIN  cargo c ON c.id = f.id_cargo
-					 ORDER BY c.id DESC";
+					 ORDER BY f.id ASC";
 	//nesta linha, executo a consulta montada
 	$funcionario = $conexao->query($sql_funcionarios);
 ?>
@@ -26,14 +26,14 @@
 			<nav aria-label="breadcrumb">
 			  <ol class="breadcrumb">
 			    <li class="breadcrumb-item"><a href="principal.php">Principal</a></li>
-			    <li class="breadcrumb-item active" aria-current="page">Funcionarios</li>
+			    <li class="breadcrumb-item active" aria-current="page">Funcionários</li>
 			  </ol>
 			</nav>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col">
-			<a href="novo-funcionario.php" class="btn btn-primary mb-2 float-right">Novo funcionario</a>
+			<a href="novo-funcionario.php" class="btn btn-primary mb-2 float-right">Novo funcionário</a>
 		</div>
 	</div>
 	<div class="row">
@@ -49,12 +49,13 @@
 				<th>Email</th>
 				<th>Sexo</th>
 				<th>Data de admissão</th>
+				<th>Ações</th>
 			</tr>
-			<?php while($dados = $funcionario->fetch_array(MYSQLI_ASSOC)) ?>
+			<?php while($dados = $funcionario->fetch_array(MYSQLI_ASSOC)) { ?>
 				<tr>
 					<td><?php echo $dados['id']; ?></td>
 					<td><?php echo $dados['nome']; ?></td>
-					<td><?php echo $dados['id_cargo']; ?></td>
+					<td><?php echo $dados['cargo']; ?></td>
 					<td><?php echo $dados['cpf']; ?></td>
 					<td><?php echo $dados['matricula']; ?></td>
 					<td><?php echo $dados['dt_nacimento']; ?></td>
@@ -71,9 +72,8 @@
 						</a>
 					</td>
 				</tr>
-
+		<?php } ?>
 		</table>
-		
 		
 
 	</div>

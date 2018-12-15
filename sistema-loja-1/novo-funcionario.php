@@ -9,14 +9,14 @@
 	if(isset($_GET['id']) && $_GET['id'] != '') {
 
 		$id = $_GET['id'];
-		$sql_produto = "SELECT * FROM produto WHERE id = {$id};";
-		$produto = $conexao->query($sql_produto);
-		$dados_produto = $produto->fetch_assoc();
+		$sql_funcionario = "SELECT * FROM funcionarios WHERE id = {$id};";
+		$funcionario = $conexao->query($sql_funcionario);
+		$dados_funcionario = $funcionario->fetch_assoc();
 		$title = "Editar funcionário";
 	}
 
-	$sql_categorias = "SELECT * FROM categoria";
-	$categorias = $conexao->query($sql_categorias);
+	$sql_cargo = "SELECT * FROM cargo";
+	$cargo = $conexao->query($sql_cargo);
 ?>
 
 <div class="container">
@@ -28,53 +28,68 @@
 			<nav aria-label="breadcrumb">
 			  <ol class="breadcrumb">
 			    <li class="breadcrumb-item"><a href="principal.php">Principal</a></li>
-			    <li class="breadcrumb-item"><a href="produtos.php">Produtos</a></li>
+			    <li class="breadcrumb-item"><a href="funcionario.php">Funcionários</a></li>
 			    <li class="breadcrumb-item active" aria-current="page"><?php echo $title; ?></li>
 			  </ol>
 			</nav>
 		</div>
 	</div>
 
-		<form method="post" action="salva-produto.php">
+		<form method="post" action="salva-funcionario.php">
 			<div class="row">
-				<div class="col-6">
+				<div class="col-9">
 					<div class="form-group">
 						<label for="nome">Nome:</label>
-						<input type="text" name="nome" id="nome" class="form-control" placeholder="Digite o nome do produto" required
-						value="<?php echo (isset($dados_produto) ? $dados_produto['nome'] : ''); ?>">
+						<input type="text" name="nome" id="nome" class="form-control" placeholder="Digite o nome do funcionário" required
+						value="<?php echo (isset($dados_funcionario) ? $dados_funcionario['nome'] : ''); ?>">
 
-						<input type="hidden" name="id" value="<?php echo (isset($dados_produto) ? $dados_produto['id'] : ''); ?>">
+						<input type="hidden" name="id" value="<?php echo (isset($dados_funcionario) ? $dados_funcionario['id'] : ''); ?>">
 					</div>
 				</div>
-
-				<div class="col-6">
+				<div class="col-3">
 					<div class="form-group">
-						<label for="valor">Valor (R$):</label>
-						<input type="text" name="valor" id="valor" class="form-control price" required
-						value="<?php echo (isset($dados_produto) ? $dados_produto['valor'] : '') ?>">
+						<label for="sexo">Sexo:</label>
+						<select name="sexo" class="form-control" required>
+							<option value="">Escolha o sexo</option>
+							<option value="masculino">Masculino</option>
+							<option value="feminino">Feminino</option>
+							<option value="outros">Outros</option>
+						</select>
+					</div>
+				</div>
+				<div class="col-3">
+					<div class="form-group">
+						<label for="dt_nacimento">Data de Nascimento:</label>
+						<input type="date" name="dt_nacimento" id="dt_nacimento" class="form-control date" placeholder="Informe a data de nascimento" required value="<?php echo (isset($dados_funcionario) ? $dados_funcionario['dt_nacimento'] : '') ?>">
+					</div>
+				</div>
+				<div class="col-3">
+					<div class="form-group">
+						<label for="telefone">Telefone:</label>
+						<input type="phone_with_ddd" name="telefone" id="telefone" class="form-control phone_with_ddd" placeholder="Informe o telefone" required value="<?php echo (isset($dados_funcionario) ? $dados_funcionario['telefone'] : '') ?>">
 					</div>
 				</div>
 				<div class="col-6">
 					<div class="form-group">
-						<label for="estoque">Estoque:</label>
-						<input type="number" name="estoque" id="estoque" class="form-control" placeholder="Digite a quantidade em estoque"required value="<?php echo (isset($dados_produto) ? $dados_produto['estoque'] : '') ?>">
+						<label for="cpf">CPF:</label>
+						<input type="text" name="cpf" id="cpf" class="form-control cpf" placeholder="Informe o CPF" required
+						value="<?php echo (isset($dados_funcionario) ? $dados_funcionario['cpf'] : ''); ?>">
 					</div>
 				</div>
-				<div class="col-6">
+				<div class="col-3">
 					<div class="form-group">
-						<label for="id_categoria">Categoria:</label>
+						<label for="id_cargo">Cargo:</label>
 						
-						<select name="id_categoria" class="form-control" required>
-							<option value="">Escolha a categoria</option>
-							<?php while($mercadoria = $categorias->fetch_array(MYSQLI_ASSOC)) { ?>
-								<option value="<?php echo $mercadoria['id'] ?>"
-
+						<select name="id_cargo" class="form-control" required>
+							<option value="">Escolha o cargo</option>
+							<?php while($carg = $cargo->fetch_array(MYSQLI_ASSOC)) { ?>
+								<option value="<?php echo $carg['id'] ?>"
 									<?php 
-										if(isset($dados_produto) && $dados_produto['id_categoria'] == $mercadoria['id']) { echo 'selected="selected"'; }
+										if(isset($dados_funcionario) && $dados_funcionario['id_cargo'] == $carg['id']) { echo 'selected="selected"'; }
 									 ?>
 
 									>
-									<?php echo $mercadoria['descricao'] ?>
+									<?php echo $carg['descricao'] ?>
 										
 									</option>
 							<?php } ?>
@@ -83,7 +98,32 @@
 
 
 					</div>
-					<button type="submit" class="btn btn-primary float-right">Salvar</button>
+				</div>
+				
+				<div class="col-3">
+					<div class="form-group">
+						<label for="matricula">Matrícula:</label>
+						<input type="matricula" name="matricula" id="matricula" class="form-control matricula" placeholder="Informe a matricula" required value="<?php echo (isset($dados_funcionario) ? $dados_funcionario['matricula'] : '') ?>">
+					</div>
+				</div>
+				
+				
+				
+				<div class="col-3">
+					<div class="form-group">
+						<label for="dt_admissao">Data de Admissão:</label>
+						<input type="date" name="dt_admissao" id="dt_admissao" class="form-control date" placeholder="Informe a data de admissão" required value="<?php echo (isset($dados_funcionario) ? $dados_funcionario['dt_admissao'] : '') ?>">
+					</div>
+				</div>
+				<div class="col-6">
+					<div class="form-group">
+						<label for="email">Email:</label>
+						<input type="email" name="email" id="email" class="form-control email" placeholder="Informe o email" required value="<?php echo (isset($dados_funcionario) ? $dados_funcionario['email'] : '') ?>">
+					</div>
+				</div>
+				<div class="col-6">
+				</div>
+					<button type="submit" class="btn btn-primary float-rigth">Salvar</button>
 				</div>
 			</div>
 		</form>
